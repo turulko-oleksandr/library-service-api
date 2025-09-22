@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / compiled files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+eggs/
+*.egg-info
+.tox/
+
+# Virtual environment
+.venv/
+env/
+.env/
+
+# Editor-specific files
+.idea/  # PyCharm
+.vscode/ # VS Code
+*.swp   # Vim swap files
+*~      # Emacs backup files
+
+# Django-specific files
+*.log
+*.pot
+db.sqlite3
+local_settings.py  # Or any other file containing sensitive local configurations
+media/             # User-uploaded files (if not served by a separate service)
+static_root/       # Collected static files (if not handled by a deployment process)
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Test and coverage
+.coverage
+htmlcov/
