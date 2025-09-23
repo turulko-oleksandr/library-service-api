@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 from datetime import timedelta
 
-import library_service_auth
+import library_service_users
 import library_service_api
 from pathlib import Path
 
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'library_service_api',
-    'library_service_auth',
+    'library_service_users',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +89,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'library_service_auth.Customer'
+AUTH_USER_MODEL = 'library_service_users.Customer'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from library_service_auth.serializers import CustomerSerializer
+from library_service_users.serializers import CustomerSerializer
 
 
 class CreateCustomerView(generics.CreateAPIView):

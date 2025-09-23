@@ -1,10 +1,10 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from library_service_auth.views import CreateCustomerView, ManageCustomerView
+from library_service_users.views import CreateCustomerView, ManageCustomerView
 
 
-app_name = 'library_service_auth'
+app_name = 'library_service_users'
 
 urlpatterns = [
     path("register/", CreateCustomerView.as_view(), name="create"),
