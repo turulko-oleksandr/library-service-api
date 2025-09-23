@@ -14,12 +14,13 @@ class Book(models.Model):
     )
     inventory = models.PositiveIntegerField()
     COVER_CHOICES = (
-        (1, 'HARD'),
-        (0, 'SOFT')
+        ("SOFT", "SOFT"),
+        ("HARD", "HARD"),
     )
-    cover = models.IntegerField(
+    cover = models.CharField(
+        max_length=10,
         choices=COVER_CHOICES,
-        default=0
+        default="SOFT"
     )
 
     def __str__(self):
