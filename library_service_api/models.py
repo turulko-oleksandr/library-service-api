@@ -1,6 +1,3 @@
-from email.policy import default
-from random import choices
-
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -25,7 +22,6 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title}"
-
 
 
 class Borrowing(models.Model):
@@ -78,4 +74,6 @@ class Payment(models.Model):
     money_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Payment for borrowing ID: {self.borrowing.id} ({self.get_status_display()})"
+        return (f"Payment for borrowing ID: "
+                f"{self.borrowing.id} "
+                f"({self.get_status_display()})")
