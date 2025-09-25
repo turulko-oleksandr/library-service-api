@@ -21,18 +21,18 @@ env/
 .env/
 
 # Editor-specific files
-.idea/  # PyCharm
-.vscode/ # VS Code
-*.swp   # Vim swap files
-*~      # Emacs backup files
+.idea/
+.vscode/
+*.swp
+*~
 
 # Django-specific files
 *.log
 *.pot
 db.sqlite3
-local_settings.py  # Or any other file containing sensitive local configurations
-media/             # User-uploaded files (if not served by a separate service)
-static_root/       # Collected static files (if not handled by a deployment process)
+local_settings.py
+media/
+static_root/
 
 # Operating System files
 .DS_Store
