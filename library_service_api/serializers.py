@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from library_service_api.models import Book, Borrowing
@@ -32,14 +33,21 @@ class BorrowingSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "borrow_date", "user", "actual_return_date"]
 
     def create(self, validated_data):
-        book = validated_data["book"]
+        with transaction.atomic():
+            book = validated_data.get("book")
 
-        if book.inventory < 1:
-            raise serializers.ValidationError(
-                "This book is not available for borrowing."
-            )
-        book.inventory -= 1
-        book.save()
+            if not book:
+                raise serializers.ValidationError("Book is required.")
 
-        validated_data["user"] = self.context["request"].user
-        return super().create(validated_data)
+            book = Book.objects.select_for_update().get(id=book.id)
+
+            if book.inventory < 1:
+                raise serializers.ValidationError(
+                    "This book is not available for borrowing."
+                )
+
+            book.inventory -= 1
+            book.save(update_fields=["inventory"])
+
+            validated_data["user"] = self.context["request"].user
+            return super().create(validated_data)

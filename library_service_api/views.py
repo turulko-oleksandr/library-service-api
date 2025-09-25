@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.utils.timezone import now
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -53,10 +54,12 @@ class BorrowingViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        borrowing.actual_return_date = now().date()
+        with transaction.atomic():
+            book = Book.objects.select_for_update().get(id=borrowing.book.id)
+            book.inventory += 1
+            book.save(update_fields=["inventory"])
 
-        borrowing.book.inventory += 1
-        borrowing.book.save()
-        borrowing.save()
+            borrowing.actual_return_date = now().date()
+            borrowing.save(update_fields=["actual_return_date"])
 
         return Response(BorrowingSerializer(borrowing).data)
