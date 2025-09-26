@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
 from datetime import timedelta
+
+from dotenv import load_dotenv
 
 import library_service_users
 import library_service_api
@@ -18,15 +21,17 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i3xnxa7$-oqu1mxp_a-tlbde0-7kk5)*fzc2xl=lh0^t*fqn_p'
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback_secret_key")
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 ALLOWED_HOSTS = []
 
