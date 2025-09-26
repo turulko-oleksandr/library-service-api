@@ -2,6 +2,7 @@ from django.db import transaction
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from library_service_api.models import Book, Borrowing
+from library_service_api.services.telegram_service import send_telegram_message
 
 
 class BookSerializer(ModelSerializer):
@@ -35,19 +36,25 @@ class BorrowingSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         with transaction.atomic():
             book = validated_data.get("book")
-
             if not book:
                 raise serializers.ValidationError("Book is required.")
 
             book = Book.objects.select_for_update().get(id=book.id)
-
             if book.inventory < 1:
                 raise serializers.ValidationError(
-                    "This book is not available for borrowing."
-                )
+                    "This book is not available for borrowing.")
 
             book.inventory -= 1
             book.save(update_fields=["inventory"])
 
             validated_data["user"] = self.context["request"].user
-            return super().create(validated_data)
+            borrowing = super().create(validated_data)
+
+        send_telegram_message(
+            f"📚 New borrowing created!\n\n"
+            f"User: {borrowing.user}\n"
+            f"Book: {borrowing.book}\n"
+            f"Expected return: {borrowing.expected_return_date}"
+        )
+
+        return borrowing

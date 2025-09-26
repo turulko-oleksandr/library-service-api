@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from library_service_api.models import Book, Borrowing
 from library_service_api.permissions import IsAdminOrIfAuthenticatedReadOnly
 from library_service_api.serializers import BookSerializer, BorrowingSerializer
+from library_service_api.services.telegram_service import send_telegram_message
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -61,5 +62,12 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 
             borrowing.actual_return_date = now().date()
             borrowing.save(update_fields=["actual_return_date"])
+
+        send_telegram_message(
+            f"✅ Borrowing returned!\n\n"
+            f"User: {borrowing.user}\n"
+            f"Book: {borrowing.book}\n"
+            f"Returned at: {borrowing.actual_return_date}"
+        )
 
         return Response(BorrowingSerializer(borrowing).data)
