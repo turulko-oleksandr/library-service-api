@@ -1,5 +1,7 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView,
+                                            TokenVerifyView)
 
 from library_service_users.views import CreateCustomerView, ManageCustomerView
 
