@@ -106,7 +106,9 @@ class BorrowingApiTests(TestCase):
         mock_stripe.return_value = MagicMock()
         payload = {
             "book_id": self.book.id,
-            "expected_return_date": (date.today() + timedelta(days=5)).isoformat()
+            "expected_return_date": (
+                    date.today() + timedelta(days=5)
+            ).isoformat()
         }
         res = self.client.post(BORROWINGS_URL, payload, format="json")
 
@@ -120,14 +122,18 @@ class BorrowingApiTests(TestCase):
         self.book.save()
         payload = {
             "book_id": self.book.id,
-            "expected_return_date": (date.today() + timedelta(days=5)).isoformat()
+            "expected_return_date": (
+                    date.today() + timedelta(days=5)
+            ).isoformat()
         }
         res = self.client.post(BORROWINGS_URL, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     @patch("library_service_api.views.create_fine_payment")
     @patch("library_service_api.views.send_telegram_message")
-    def test_return_borrowing_creates_fine_if_late(self, mock_telegram, mock_fine):
+    def test_return_borrowing_creates_fine_if_late(
+            self, mock_telegram, mock_fine
+    ):
         borrowing = Borrowing.objects.create(
             expected_return_date=date.today() - timedelta(days=1),  # overdue
             book=self.book,
@@ -142,7 +148,10 @@ class BorrowingApiTests(TestCase):
         )
         mock_fine.return_value = mock_payment
 
-        url = reverse("library_service_api:borrowings-return", args=[borrowing.id])
+        url = reverse(
+            "library_service_api:borrowings-return",
+            args=[borrowing.id]
+        )
         res = self.client.post(url)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)

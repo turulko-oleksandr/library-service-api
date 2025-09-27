@@ -30,7 +30,7 @@ urlpatterns = [
         'api/library/',
         include(
             'library_service_api.urls',
-            # namespace='library_service_api'
+            namespace='library_service_api'
         )
     ),
 ]
