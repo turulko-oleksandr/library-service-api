@@ -49,7 +49,8 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-    @action(detail=True, methods=["post"], url_path="return")
+    @action(detail=True, methods=["post"],
+        url_name="return", url_path="return")
     def return_borrowing(self, request, pk=None):
         borrowing = self.get_object()
 
