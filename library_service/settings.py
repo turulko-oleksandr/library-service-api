@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'library_service_api',
     'library_service_users',
 ]
@@ -160,6 +162,15 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Library Service API',
+    'DESCRIPTION': 'Books borrowing management system',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 SIMPLE_JWT = {

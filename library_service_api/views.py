@@ -3,6 +3,7 @@ from django.db import transaction
 from django.utils.timezone import now
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -17,6 +18,7 @@ from library_service_api.services.telegram_service import send_telegram_message
 
 class BookViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = PageNumberPagination
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
@@ -25,6 +27,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
     serializer_class = BorrowingSerializer
     permission_classes = [IsAuthenticated]
     queryset = Borrowing.objects.all()
+    pagination_class = PageNumberPagination
     filterset_fields = ["user", "actual_return_date"]
 
     def get_queryset(self):
@@ -100,6 +103,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 class PaymentViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PaymentSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
     queryset = Payment.objects.all()
 
     def get_queryset(self):
