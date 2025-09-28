@@ -20,6 +20,7 @@ eggs/
 env/
 .env/
 .env
+static/
 
 # Editor-specific files
 .idea/
