@@ -6,7 +6,7 @@ services:
              python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              python manage.py test &&
-
+             python manage.py loaddata fixture.json &&
              gunicorn --bind 0.0.0.0:8080 library_service.wsgi:application"
 
         sh -c "python manage.py wait_for_db && python manage.py migrate && python manage.py runserver 0.0.0.0:8080"
@@ -16,7 +16,7 @@ services:
       - static_data:/app/static
       - media_data:/app/media
     ports:
-      - "8080:8000"
+      - "8080:8080"
     env_file:
       - .env
     depends_on:
@@ -27,9 +27,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=library
-      - POSTGRES_USER=admin@gmail.com
-      - POSTGRES_PASSWORD=admin
+      - DATABASE_NAME=library
+      - DATABASE_USERNAME=admin@gmail.com
+      - DATABASE_PASSWORD=admin
 
 volumes:
   postgres_data:
