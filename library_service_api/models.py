@@ -20,6 +20,9 @@ class Book(models.Model):
         default="SOFT"
     )
 
+    class Meta:
+        ordering = ["title"]
+
     def __str__(self):
         return f"{self.title}"
 
@@ -39,6 +42,9 @@ class Borrowing(models.Model):
         on_delete=models.CASCADE,
         related_name="borrowings"
     )
+
+    class Meta:
+        ordering = ["-borrow_date"]
 
     def __str__(self):
         return f"{self.user.email} borrowed {self.book.title}"
@@ -72,6 +78,9 @@ class Payment(models.Model):
     session_url = models.URLField(max_length=500)
     session_id = models.CharField(max_length=255, unique=True)
     money_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        ordering = ["-id"]
 
     def __str__(self):
         return (f"Payment for borrowing ID: "

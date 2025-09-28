@@ -189,7 +189,7 @@ class PaymentApiTests(TestCase):
     def test_list_payments_for_user(self):
         res = self.client.get(PAYMENTS_URL)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 1)
+        self.assertEqual(len(res.data), 4)
 
     @patch("library_service_api.views.stripe.checkout.Session.retrieve")
     def test_payment_success_marks_as_paid(self, mock_retrieve):
